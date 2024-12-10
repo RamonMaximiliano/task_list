@@ -46,3 +46,16 @@ const styles = StyleSheet.create({
         flexWrap:"wrap"
     }
 })
+
+
+
+/*
+
+TASKS:
+
+- Component task
+- Task list container
+- Footer with add task feature
+- App title on top
+
+*/

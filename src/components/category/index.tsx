@@ -1,7 +1,6 @@
-import { Text, View, Image, Pressable } from "react-native";
+import { Text, View, Image, TouchableOpacity } from "react-native";
 import { StyleSheet } from 'react-native';
 import { MaterialIcons } from "@expo/vector-icons";
-
 
 type props = {
     name:string,
@@ -11,11 +10,11 @@ type props = {
 export default function Category(props:props) {
     return (
         <>
-                <Pressable style={styles.main}>      
+                <TouchableOpacity style={styles.main}>      
                 <MaterialIcons name={props.icon} size={30} color="white" />
 
                     <Text style={styles.text}>{props.name}</Text>
-                </Pressable>
+                </TouchableOpacity>
         </>
     )
 }
@@ -29,7 +28,7 @@ const styles = StyleSheet.create({
         width: "30%",
         padding: 8,
         margin:5,
-        marginTop:20,
+        marginTop:5,
         color:"white",
         backgroundColor:"#5e5e5e",
         borderRadius:2
