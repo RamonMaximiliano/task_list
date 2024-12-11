@@ -5,14 +5,12 @@ import React from "react";
 // @ts-ignore
 import DoubleClick from 'react-native-double-tap';
 
-
 type task ={
     id:number,
     text:string,
     status:boolean,
     category:string
 }
-
 
 export default function Task(props:task) {
     return (
@@ -37,7 +35,6 @@ export default function Task(props:task) {
         </>
     )
 }
-
 
 const styles = StyleSheet.create({
 

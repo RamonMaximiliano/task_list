@@ -4,11 +4,81 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import Category from "@/src/components/category";
 import Task from "@/src/components/task";
 import { Fontisto } from "@expo/vector-icons";
+import React, { useEffect, useState } from "react";
+
+type task = {
+    id: number,
+    text: string,
+    status: boolean,
+    category: string
+}
+
+const TestList = [
+    {
+        id: 10,
+        text: "string",
+        status: true,
+        category: "geral"
+    },
+    {
+        id: 20,
+        text: "hello",
+        status: true,
+        category: "geral"
+    },
+    {
+        id: 180,
+        text: "blue",
+        status: true,
+        category: "geral"
+    },    {
+        id: 18430,
+        text: "red",
+        status: true,
+        category: "geral"
+    },
+    {
+        id: 28460,
+        text: "green",
+        status: true,
+        category: "geral"
+    },
+    {
+        id: 184680,
+        text: "yellow",
+        status: true,
+        category: "geral"
+    },
+    {
+        id: 165818430,
+        text: "purple",
+        status: true,
+        category: "geral"
+    },
+    {
+        id: 28684460,
+        text: "black",
+        status: true,
+        category: "geral"
+    },
+    {
+        id: 184638180,
+        text: "brown",
+        status: true,
+        category: "geral"
+    },
+
+]
+
+
+
+
 
 export default function Index() {
-const edited = true;
-
-
+    const [taskList, setTaskList] = useState<task[]>()
+    const [task, setTask] = useState<task[]>()
+    const [category, setCategory] = useState<string>("Geral")
+    const edited = false;
 
     return (
         <>
@@ -18,32 +88,25 @@ const edited = true;
                 </TouchableOpacity>
             </View>
             <View style={styles.categories}>
-                <Category name="Geral" icon={"notes"} />
-                <Category name="Mercado" icon={"shopping-cart"} />
-                <Category name="Filmes" icon={"movie"} />
-                <Category name="Música" icon={"music-note"} />
-                <Category name="Contas" icon={"money-off"} />
-                <Category name="Livros" icon={"library-books"} />
-                <Category name="Trabalho" icon={"work"} />
-                <Category name="Estudos" icon={"school"} />
-                <Category name="Agenda" icon={"calendar-month"} />
+                <Category name="Geral" icon={"notes"} category={category}/>
+                <Category name="Mercado" icon={"shopping-cart"} category={category}/>
+                <Category name="Filmes" icon={"movie"} category={category}/>
+                <Category name="Música" icon={"music-note"} category={category}/>
+                <Category name="Contas" icon={"money-off"} category={category}/>
+                <Category name="Livros" icon={"library-books"} category={category}/>
+                <Category name="Trabalho" icon={"work"} category={category}/>
+                <Category name="Estudos" icon={"school"} category={category}/>
+                <Category name="Agenda" icon={"calendar-month"} category={category}/>
             </View>
 
             <ScrollView style={styles.ScrollView}>
                 <View style={styles.container}>
-                    <Task id={10} text="hello there" status={true} category="hi" />
-                    <Task id={10} text="hello there" status={true} category="hi" />
-                    <Task id={10} text="hello there" status={true} category="hi" />
-                    <Task id={10} text="hello there" status={true} category="hi" />
-                    <Task id={10} text="hello there" status={true} category="hi" />
-                    <Task id={10} text="hello there" status={true} category="hi" />
-                    <Task id={10} text="hello there" status={true} category="hi" />
-                    <Task id={10} text="hello there" status={true} category="hi" />
-                    <Task id={10} text="hello there" status={true} category="hi" />
-                    <Task id={10} text="hello there" status={true} category="hi" />
-                    <Task id={10} text="hello there" status={true} category="hi" />
-                    <Task id={10} text="hello there" status={true} category="hi" />
-                    <Task id={10} text="hello there" status={true} category="hi" />
+
+                    {TestList.map((item: task) => {
+                            return <Task key={item.id} id={item.id} text={item.text} status={item.status} category={item.category}/>
+                        })
+                    }
+
                 </View>
             </ScrollView>
 
@@ -52,22 +115,22 @@ const edited = true;
                 <TextInput
                     style={styles.taskInput}
                     placeholder="Type your task"
-/*                     value={newTask}
-                    onChangeText={(e) => setNewTask(e)} */
+                /*                     value={newTask}
+                                    onChangeText={(e) => setNewTask(e)} */
                 />
                 {/*We need to use this TouchableOpacity component to handle press events*/}
 
                 {edited !== null ? (
                     <TouchableOpacity
                         style={styles.saveSign}
-   
+
                     >
                         <Fontisto name="save" size={24} color="#20bbb5" />
                     </TouchableOpacity>
                 ) : (
                     <TouchableOpacity
                         style={styles.plusSign}
-          
+
                     >
                         <Text style={styles.plusSignText}>+</Text>
                     </TouchableOpacity>
@@ -98,92 +161,79 @@ const styles = StyleSheet.create({
         flexWrap: "wrap"
     },
     ScrollView: {
-        marginBottom: 80,
-        marginTop: 15,
+
+        marginTop: 10,
+        backgroundColor: "#3c3c3c",
+        paddingBottom:20
     },
     container: {
         flex: 1,
-        backgroundColor: "#353535",
         alignItems: "center",
         justifyContent: "center",
         paddingTop: 10,
-
+        paddingBottom:120
     },
 
+    bottom: {
+        width: "100%",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        backgroundColor: "#222222",
+        paddingRight: 25,
+        paddingLeft: 25,
+        position: "absolute",
+        bottom: 0,
+    },
+    bottomEdit: {
+        width: "100%",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        backgroundColor: "blue",
+        paddingRight: 25,
+        paddingLeft: 25,
+        position: "absolute",
+        bottom: 0,
+    },
 
+    taskInput: {
+        width: "60%",
+        textAlign: "center",
+        alignItems: "center",
+        backgroundColor: "white",
+        padding: 10,
+        margin: 15,
+        borderRadius: 50,
+        fontSize: 15,
+    },
 
+    plusSign: {
+        width: 60,
+        height: 60,
+        textAlign: "center",
+        alignItems: "center",
+        backgroundColor: "white",
+        padding: 3,
+        margin: 15,
+        borderRadius: 50,
+    },
 
+    saveSign: {
+        width: 60,
+        height: 60,
+        textAlign: "center",
+        alignItems: "center",
+        backgroundColor: "white",
+        padding: 15,
+        margin: 15,
+        borderRadius: 50,
+    },
 
-
-
-
-
-
-
-
-
-
-    
-  bottom: {
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "#222222",
-    paddingRight: 25,
-    paddingLeft: 25,
-    position: "absolute",
-    bottom: 0,
-  },
-  bottomEdit: {
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "blue",
-    paddingRight: 25,
-    paddingLeft: 25,
-    position: "absolute",
-    bottom: 0,
-  },
-
-  taskInput: {
-    width: "60%",
-    textAlign: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-    padding: 10,
-    margin: 15,
-    borderRadius: 50,
-    fontSize: 15,
-  },
-
-  plusSign: {
-    width: 60,
-    height: 60,
-    textAlign: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-    padding: 3,
-    margin: 15,
-    borderRadius: 50,
-  },
-
-  saveSign: {
-    width: 60,
-    height: 60,
-    textAlign: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-    padding: 15,
-    margin: 15,
-    borderRadius: 50,
-  },
-
-  plusSignText: {
-    fontSize: 37,
-    color: "blue",
-  }
+    plusSignText: {
+        fontSize: 37,
+        color: "blue",
+    }
 })
 
 
@@ -192,7 +242,6 @@ const styles = StyleSheet.create({
 
 TASKS:
 
-- Footer with add task feature
 - App title on top
 - Make chosen list with special CSS 
 - add task to the chosen list on top, as well as filter existant list
