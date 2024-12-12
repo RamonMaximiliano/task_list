@@ -61,13 +61,11 @@ export const TaskProvider = ({ children }:{children:React.ReactNode}) => {
       return item.category === chosenCat
     })
     setFilteredTasks(filteredList)
-  },[chosenCat])
+  },[chosenCat,tasks])
 
 
 function createNewTask(){
   const generateId = () => Date.now();
-
-
 
   const BrandNewTask = {
     id: Number(generateId()),
@@ -76,14 +74,19 @@ function createNewTask(){
     category:chosenCat
   }
   setNewTask(BrandNewTask)
-}
 
+
+  if (filteredTasks && filteredTasks.find(item => item.text === NewText)) {
+    Alert.alert("Este item já existe na lista!");
+  } else {
+    setTasks([...tasks, BrandNewTask])
+    setNewText("Novo item")
+  }
+}
 
   return (
     <TaskContext.Provider
       value={{
-        tasks,
-        setTasks,
         chosenCat,
         setChosenCat,
         filteredTasks,

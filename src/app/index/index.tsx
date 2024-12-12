@@ -16,7 +16,7 @@ type task = {
 }
 
 export default function Index() {
-    const { tasks, setTasks, chosenCat, filteredTasks, edited, NewText, setNewText,createNewTask} = useContext(TaskContext)
+    const { chosenCat, filteredTasks, edited, NewText, setNewText,createNewTask} = useContext(TaskContext)
     console.log(NewText)
     return (
         <>
