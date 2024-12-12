@@ -5,6 +5,8 @@ import Category from "@/src/components/category";
 import Task from "@/src/components/task";
 import { Fontisto } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
+import { TaskContext } from "@/src/context/TaskContext";
+import { useContext } from "react";
 
 type task = {
     id: number,
@@ -13,76 +15,19 @@ type task = {
     category: string
 }
 
-const TestList = [
-    {
-        id: 10,
-        text: "string",
-        status: true,
-        category: "geral"
-    },
-    {
-        id: 20,
-        text: "hello",
-        status: true,
-        category: "geral"
-    },
-    {
-        id: 180,
-        text: "blue",
-        status: true,
-        category: "geral"
-    },    {
-        id: 18430,
-        text: "red",
-        status: true,
-        category: "geral"
-    },
-    {
-        id: 28460,
-        text: "green",
-        status: true,
-        category: "geral"
-    },
-    {
-        id: 184680,
-        text: "yellow",
-        status: true,
-        category: "geral"
-    },
-    {
-        id: 165818430,
-        text: "purple",
-        status: true,
-        category: "geral"
-    },
-    {
-        id: 28684460,
-        text: "black",
-        status: true,
-        category: "geral"
-    },
-    {
-        id: 184638180,
-        text: "brown",
-        status: true,
-        category: "geral"
-    },
-
-]
-
-
-
-
-
 export default function Index() {
     const [taskList, setTaskList] = useState<task[]>()
     const [task, setTask] = useState<task[]>()
     const [category, setCategory] = useState<string>("Geral")
     const edited = false;
+    const { tasks, setTasks } = useContext(TaskContext)
+
+
 
     return (
         <>
-            <View style={styles.main}><Image style={styles.logo} source={require("../../../assets/images/icon.png")} />
+            <View style={styles.main}>
+                <Image style={styles.logo} source={require("../../../assets/images/icon.png")} />
                 <TouchableOpacity>
                     <AntDesign name="plus" size={30} color="#20bbb5" />
                 </TouchableOpacity>
@@ -102,7 +47,7 @@ export default function Index() {
             <ScrollView style={styles.ScrollView}>
                 <View style={styles.container}>
 
-                    {TestList.map((item: task) => {
+                    {tasks.map((item: task) => {
                             return <Task key={item.id} id={item.id} text={item.text} status={item.status} category={item.category}/>
                         })
                     }
@@ -114,7 +59,8 @@ export default function Index() {
             <View style={edited !== null ? styles.bottom : styles.bottomEdit}>
                 <TextInput
                     style={styles.taskInput}
-                    placeholder="Type your task"
+                    placeholder={tasks[0].text
+                }
                 /*                     value={newTask}
                                     onChangeText={(e) => setNewTask(e)} */
                 />
