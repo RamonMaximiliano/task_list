@@ -16,16 +16,13 @@ type task = {
 }
 
 export default function Index() {
-    const edited = false;
-    const { tasks, setTasks, chosenCat } = useContext(TaskContext)
-
+    const { tasks, setTasks, chosenCat, filteredTasks, edited, NewText, setNewText,createNewTask} = useContext(TaskContext)
+    console.log(NewText)
     return (
         <>
             <View style={styles.main}>
                 <Image style={styles.logo} source={require("../../../assets/images/icon.png")} />
-                <TouchableOpacity>
-                    <AntDesign name="plus" size={30} color="#20bbb5" />
-                </TouchableOpacity>
+                <Text style={styles.title}>Task List</Text>
             </View>
             <View style={styles.categories}>
                 <View style={styles.categoriesLine}>
@@ -49,7 +46,7 @@ export default function Index() {
             <ScrollView style={styles.ScrollView}>
                 <View style={styles.container}>
 
-                    {tasks.map((item: task) => {
+                    {filteredTasks?.map((item: task) => {
                         return <Task key={item.id} id={item.id} text={item.text} status={item.status} category={item.category} />
                     })
                     }
@@ -60,7 +57,10 @@ export default function Index() {
             <View style={edited !== null ? styles.bottom : styles.bottomEdit}>
                 <TextInput
                     style={styles.taskInput}
-                    placeholder="Type your task"
+                    placeholder="Novo item"
+                    onChangeText={(e)=>setNewText(e)}
+                    value={NewText}
+
                 />
 
                 {edited !== null ? (
@@ -73,7 +73,7 @@ export default function Index() {
                 ) : (
                     <TouchableOpacity
                         style={styles.plusSign}
-
+                        onPress={()=>createNewTask()}
                     >
                         <Text style={styles.plusSignText}>+</Text>
                     </TouchableOpacity>
@@ -85,11 +85,17 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
+    title:{
+        color: "white",
+        fontSize:25,
+        fontWeight:"bold",
+    },
+
     main: {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between",
+        justifyContent: "center",
         width: "100%",
         padding: 10
 
@@ -139,7 +145,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        backgroundColor: "blue",
+        backgroundColor: "#222222",
         paddingRight: 25,
         paddingLeft: 25,
         position: "absolute",
@@ -162,7 +168,7 @@ const styles = StyleSheet.create({
         height: 60,
         textAlign: "center",
         alignItems: "center",
-        backgroundColor: "white",
+        backgroundColor: "#00a39d",
         padding: 3,
         margin: 15,
         borderRadius: 50,
@@ -181,18 +187,8 @@ const styles = StyleSheet.create({
 
     plusSignText: {
         fontSize: 37,
-        color: "blue",
+        color: "white",
     }
 })
 
 
-
-/*
-
-TASKS:
-
-- App title on top
-- Make chosen list with special CSS 
-- add task to the chosen list on top, as well as filter existant list
-
-*/
