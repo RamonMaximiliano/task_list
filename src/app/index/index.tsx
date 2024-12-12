@@ -16,13 +16,8 @@ type task = {
 }
 
 export default function Index() {
-    const [taskList, setTaskList] = useState<task[]>()
-    const [task, setTask] = useState<task[]>()
-    const [category, setCategory] = useState<string>("Geral")
     const edited = false;
-    const { tasks, setTasks } = useContext(TaskContext)
-
-
+    const { tasks, setTasks, chosenCat } = useContext(TaskContext)
 
     return (
         <>
@@ -33,38 +28,40 @@ export default function Index() {
                 </TouchableOpacity>
             </View>
             <View style={styles.categories}>
-                <Category name="Geral" icon={"notes"} category={category}/>
-                <Category name="Mercado" icon={"shopping-cart"} category={category}/>
-                <Category name="Filmes" icon={"movie"} category={category}/>
-                <Category name="Música" icon={"music-note"} category={category}/>
-                <Category name="Contas" icon={"money-off"} category={category}/>
-                <Category name="Livros" icon={"library-books"} category={category}/>
-                <Category name="Trabalho" icon={"work"} category={category}/>
-                <Category name="Estudos" icon={"school"} category={category}/>
-                <Category name="Agenda" icon={"calendar-month"} category={category}/>
+                <View style={styles.categoriesLine}>
+                    <Category name="Geral" icon={"notes"} category={chosenCat} />
+                    <Category name="Mercado" icon={"shopping-cart"} category={chosenCat} />
+                    <Category name="Filmes" icon={"movie"} category={chosenCat} />
+
+                </View>
+                <View style={styles.categoriesLine}>
+                    <Category name="Música" icon={"music-note"} category={chosenCat} />
+                    <Category name="Contas" icon={"money-off"} category={chosenCat} />
+                    <Category name="Livros" icon={"library-books"} category={chosenCat} />
+                </View>
+                <View style={styles.categoriesLine}>
+                    <Category name="Trabalho" icon={"work"} category={chosenCat} />
+                    <Category name="Estudos" icon={"school"} category={chosenCat} />
+                    <Category name="Agenda" icon={"calendar-month"} category={chosenCat} />
+                </View>
             </View>
 
             <ScrollView style={styles.ScrollView}>
                 <View style={styles.container}>
 
                     {tasks.map((item: task) => {
-                            return <Task key={item.id} id={item.id} text={item.text} status={item.status} category={item.category}/>
-                        })
+                        return <Task key={item.id} id={item.id} text={item.text} status={item.status} category={item.category} />
+                    })
                     }
 
                 </View>
             </ScrollView>
 
-
             <View style={edited !== null ? styles.bottom : styles.bottomEdit}>
                 <TextInput
                     style={styles.taskInput}
-                    placeholder={tasks[0].text
-                }
-                /*                     value={newTask}
-                                    onChangeText={(e) => setNewTask(e)} */
+                    placeholder="Type your task"
                 />
-                {/*We need to use this TouchableOpacity component to handle press events*/}
 
                 {edited !== null ? (
                     <TouchableOpacity
@@ -103,21 +100,27 @@ const styles = StyleSheet.create({
     },
     categories: {
         display: "flex",
+        width:"100%",
+        flexDirection: "column",
+        alignItems: "center",
+        margin: "auto"
+    },
+    categoriesLine: {
+        display: "flex",
         flexDirection: "row",
-        flexWrap: "wrap"
     },
     ScrollView: {
 
         marginTop: 10,
         backgroundColor: "#3c3c3c",
-        paddingBottom:20
+        paddingBottom: 20
     },
     container: {
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
         paddingTop: 10,
-        paddingBottom:120
+        paddingBottom: 120
     },
 
     bottom: {
@@ -191,7 +194,5 @@ TASKS:
 - App title on top
 - Make chosen list with special CSS 
 - add task to the chosen list on top, as well as filter existant list
-
-
 
 */

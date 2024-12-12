@@ -2,6 +2,9 @@ import { Text, View, Image, TouchableOpacity } from "react-native";
 import { StyleSheet } from 'react-native';
 import { MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
+import React from "react";
+import { TaskContext } from "@/src/context/TaskContext";
+import { useContext } from "react";
 
 type props = {
     name:string,
@@ -10,10 +13,15 @@ type props = {
 }
 
 export default function Category(props:props) {
+        const { tasks, setTasks, chosenCat, setChosenCat } = useContext(TaskContext)
+
+        function changeCat(){
+            setChosenCat(String(props.name))
+        }
 
     return (
         <>
-                <TouchableOpacity style={styles.main}>      
+                <TouchableOpacity style={props.name === chosenCat ? styles.selected : styles.main} onPress={()=>changeCat()}>      
                 <MaterialIcons name={props.icon} size={30} color="white" />
 
                     <Text style={styles.text}>{props.name}</Text>
@@ -35,8 +43,8 @@ const styles = StyleSheet.create({
         color:"white",
         backgroundColor:"#5e5e5e",
         borderRadius:2
-
     },
+
     selected: {
         display: "flex",
         flexDirection: "row",
@@ -47,7 +55,7 @@ const styles = StyleSheet.create({
         margin:5,
         marginTop:5,
         color:"white",
-        backgroundColor:"yellow",
+        backgroundColor:"#00a39d",
         borderRadius:2
     },
 
