@@ -17,7 +17,7 @@ type task = {
 
 export default function Index() {
     const { chosenCat, filteredTasks, edited, NewText, setNewText,createNewTask} = useContext(TaskContext)
-    console.log(NewText)
+
     return (
         <>
             <View style={styles.main}>
@@ -60,7 +60,6 @@ export default function Index() {
                     placeholder="Novo item"
                     onChangeText={(e)=>setNewText(e)}
                     value={NewText}
-
                 />
 
                 {edited !== null ? (
@@ -192,3 +191,12 @@ const styles = StyleSheet.create({
 })
 
 
+/*
+
+- editar item
+- deletar item 
+- clicando no titulo mensagem
+
+
+
+*/

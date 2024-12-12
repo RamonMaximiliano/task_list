@@ -4,6 +4,8 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import React from "react";
 // @ts-ignore
 import DoubleClick from 'react-native-double-tap';
+import { TaskContext } from "@/src/context/TaskContext";
+import { useContext } from "react";
 
 type task ={
     id:number,
@@ -13,6 +15,8 @@ type task ={
 }
 
 export default function Task(props:task) {
+      const { deleteTask} = useContext(TaskContext)
+
     return (
         <>
     <DoubleClick timeout={1000}>
@@ -24,10 +28,10 @@ export default function Task(props:task) {
           </TouchableOpacity>
         </View>
 
-        <View>
+        <View style={styles.taskView}>
           <Text style={styles.text}>{props.text}</Text>
         </View>
-        <TouchableOpacity >
+        <TouchableOpacity onPress={()=>deleteTask(props.id)}>
         <FontAwesome name="trash-o" size={28} color="white" />
         </TouchableOpacity>
       </View>
@@ -65,6 +69,12 @@ const styles = StyleSheet.create({
   text:{
     color: "white",
     fontSize:18,
+    flex:1,
+    flexWrap:"wrap"
+
+  },
+  taskView: {
+    width: 210,
   }
 
 })
