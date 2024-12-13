@@ -75,12 +75,13 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
     setNewTask(BrandNewTask)
 
     if (filteredTasks && filteredTasks.find(item => item.text === NewText)) {
-      Alert.alert("Este item já existe na lista!");
+      Alert.alert("Este item já existe na lista! ❌");
     } else if (!NewText) {
-      Alert.alert("Por favor digite um novo item!");
+      Alert.alert("Por favor digite um novo item! ✍️");
     } else {
       setTasks([...tasks, BrandNewTask])
       setNewText("")
+      Alert.alert("Novo item criado! ✅");
     }
   }
 
@@ -89,6 +90,7 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
       return item.id != id
     })
     setTasks(deletedList)
+    Alert.alert("O item foi deletado! 🗑️");
   }
 
   function saveEdit() {
@@ -98,6 +100,7 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
     setTasks(editedList)
     setEditing(false)
     setNewText("")
+    Alert.alert("O item foi editado! 📝");
   }
 
   return (

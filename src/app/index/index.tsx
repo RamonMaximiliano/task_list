@@ -197,8 +197,8 @@ const styles = StyleSheet.create({
 
 /*
 
-- Alert
-
+- Alert use Toast
+- local storage
 
 
 */
