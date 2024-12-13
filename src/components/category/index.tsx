@@ -13,10 +13,12 @@ type props = {
 }
 
 export default function Category(props:props) {
-        const { tasks, setTasks, chosenCat, setChosenCat } = useContext(TaskContext)
+        const { tasks, setNewText, chosenCat, setChosenCat, editing, setEditing } = useContext(TaskContext)
 
         function changeCat(){
             setChosenCat(String(props.name))
+            setEditing(false)
+            setNewText("")
         }
 
     return (

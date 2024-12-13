@@ -1,4 +1,4 @@
-import { Text, View, Image, TouchableOpacity, ScrollView, TextInput } from "react-native";
+import { Text, View, Image, TouchableOpacity, ScrollView, TextInput, Alert } from "react-native";
 import { StyleSheet } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Category from "@/src/components/category";
@@ -15,14 +15,20 @@ type task = {
     category: string
 }
 
+function creator() {
+    Alert.alert("Desenvolvido por Ramon! Aproveite!")
+}
+
 export default function Index() {
-    const { chosenCat, filteredTasks, edited, NewText, setNewText,createNewTask} = useContext(TaskContext)
+    const { chosenCat, filteredTasks, editing, NewText, setNewText, createNewTask, saveEdit } = useContext(TaskContext)
 
     return (
         <>
-            <View style={styles.main}>
-                <Image style={styles.logo} source={require("../../../assets/images/icon.png")} />
-                <Text style={styles.title}>Task List</Text>
+            <View >
+                <TouchableOpacity style={styles.main} onPress={() => creator()}>
+                    <Image style={styles.logo} source={require("../../../assets/images/icon.png")} />
+                    <Text style={styles.title}>Task List</Text>
+                </TouchableOpacity>
             </View>
             <View style={styles.categories}>
                 <View style={styles.categoriesLine}>
@@ -54,25 +60,23 @@ export default function Index() {
                 </View>
             </ScrollView>
 
-            <View style={edited !== null ? styles.bottom : styles.bottomEdit}>
-                <TextInput
-                    style={styles.taskInput}
-                    placeholder="Novo item"
-                    onChangeText={(e)=>setNewText(e)}
-                    value={NewText}
-                />
+            <View style={editing === false ? styles.bottom : styles.bottomEdit}>
 
-                {edited !== null ? (
+                <TextInput style={styles.taskInput}
+                    placeholder="Escreva o item"
+                    onChangeText={(e) => setNewText(e)}
+                    value={NewText} />
+                {editing !== false ? (
                     <TouchableOpacity
                         style={styles.saveSign}
-
+                        onPress={() => saveEdit()}
                     >
                         <Fontisto name="save" size={24} color="#20bbb5" />
                     </TouchableOpacity>
                 ) : (
                     <TouchableOpacity
                         style={styles.plusSign}
-                        onPress={()=>createNewTask()}
+                        onPress={() => createNewTask()}
                     >
                         <Text style={styles.plusSignText}>+</Text>
                     </TouchableOpacity>
@@ -84,10 +88,10 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
-    title:{
+    title: {
         color: "white",
-        fontSize:25,
-        fontWeight:"bold",
+        fontSize: 25,
+        fontWeight: "bold",
     },
 
     main: {
@@ -100,12 +104,12 @@ const styles = StyleSheet.create({
 
     },
     logo: {
-        width: 50,
-        height: 50
+        width: 45,
+        height: 45
     },
     categories: {
         display: "flex",
-        width:"100%",
+        width: "100%",
         flexDirection: "column",
         alignItems: "center",
         margin: "auto"
@@ -133,7 +137,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        backgroundColor: "#222222",
+        backgroundColor: "#1b1b1b",
         paddingRight: 25,
         paddingLeft: 25,
         position: "absolute",
@@ -144,7 +148,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        backgroundColor: "#222222",
+        backgroundColor: "#065855",
         paddingRight: 25,
         paddingLeft: 25,
         position: "absolute",
@@ -156,10 +160,10 @@ const styles = StyleSheet.create({
         textAlign: "center",
         alignItems: "center",
         backgroundColor: "white",
-        padding: 10,
+        padding: 12,
         margin: 15,
         borderRadius: 50,
-        fontSize: 15,
+        fontSize: 16,
     },
 
     plusSign: {
@@ -193,9 +197,7 @@ const styles = StyleSheet.create({
 
 /*
 
-- editar item
-- deletar item 
-- clicando no titulo mensagem
+- Alert
 
 
 

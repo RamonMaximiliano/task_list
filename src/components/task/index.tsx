@@ -7,37 +7,42 @@ import DoubleClick from 'react-native-double-tap';
 import { TaskContext } from "@/src/context/TaskContext";
 import { useContext } from "react";
 
-type task ={
-    id:number,
-    text:string,
-    status:boolean,
-    category:string
+type task = {
+  id: number,
+  text: string,
+  status: boolean,
+  category: string
 }
 
-export default function Task(props:task) {
-      const { deleteTask} = useContext(TaskContext)
+export default function Task(props: task) {
+  const { deleteTask, editing, setEditing, setEditID, setNewText } = useContext(TaskContext)
 
-    return (
-        <>
-    <DoubleClick timeout={1000}>
-      <View         style={props.status ? styles.taskContainerGreen : styles.taskContainerBlue}>
-        <View >
-          <TouchableOpacity>
-          <FontAwesome name="pencil-square-o" size={28} color="white" />
+  function handleEdit() {
+    setNewText(props.text)
+    setEditing(!editing)
+    setEditID(props.id)
+  }
 
+  return (
+    <>
+      <DoubleClick timeout={1000}>
+        <View style={props.status ? styles.taskContainerGreen : styles.taskContainerBlue}>
+          <View >
+            <TouchableOpacity onPress={() => handleEdit()}>
+              <FontAwesome name="pencil-square-o" size={28} color="white" />
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.taskView}>
+            <Text style={styles.text}>{props.text}</Text>
+          </View>
+          <TouchableOpacity onPress={() => deleteTask(props.id)}>
+            <FontAwesome name="trash-o" size={28} color="white" />
           </TouchableOpacity>
         </View>
-
-        <View style={styles.taskView}>
-          <Text style={styles.text}>{props.text}</Text>
-        </View>
-        <TouchableOpacity onPress={()=>deleteTask(props.id)}>
-        <FontAwesome name="trash-o" size={28} color="white" />
-        </TouchableOpacity>
-      </View>
-    </DoubleClick>
-        </>
-    )
+      </DoubleClick>
+    </>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -51,7 +56,7 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10,
     borderRadius: 5,
-    alignItems:"center"
+    alignItems: "center"
   },
 
   taskContainerGreen: {
@@ -66,11 +71,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
 
   },
-  text:{
+  text: {
     color: "white",
-    fontSize:18,
-    flex:1,
-    flexWrap:"wrap"
+    fontSize: 18,
+    flex: 1,
+    flexWrap: "wrap"
 
   },
   taskView: {
