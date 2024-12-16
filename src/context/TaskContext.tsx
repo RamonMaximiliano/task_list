@@ -56,6 +56,16 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
   const [editing, setEditing] = useState<boolean>(false);
   const [editID, setEditID] = useState<number>();
 
+  // LOCAL FUNCTION - SAVE USERS IN LOCALSTORAGE*/
+  function storeTasks(tasksList:Task[]){
+    try {
+      AsyncStorage.setItem("tasksList", JSON.stringify(tasksList));
+    } catch (e) {
+      Alert.alert("Failed to save users! ❌")
+    }
+  };
+
+  //1° GET
   useEffect(() => {
     const filteredList = tasks.filter((item) => {
       return item.category === chosenCat
@@ -63,6 +73,24 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
     setFilteredTasks(filteredList)
   }, [chosenCat, tasks])
 
+ // LOCAL FUNCTION - GET LIST FROM LOCALSTORAGE*/
+ const getList = async () => {
+  try {
+    const tasksList = await AsyncStorage.getItem("tasksList");
+    if (tasksList !== null) {
+      setTasks(JSON.parse(tasksList));
+    }
+  } catch (e) {
+    Alert.alert("Failed to get items! ❌")
+  }
+};
+
+useEffect(() => {
+  getList();
+}, []);
+
+
+  //2° SAVE
   function createNewTask() {
     const generateId = () => Date.now();
 
@@ -82,17 +110,23 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
       setTasks([...tasks, BrandNewTask])
       setNewText("")
       Alert.alert("Novo item criado! ✅");
+      storeTasks([...tasks, BrandNewTask])
     }
   }
+  
 
+   //3° DELETE
   function deleteTask(id: number) {
     const deletedList = tasks.filter((item: Task) => {
       return item.id != id
     })
     setTasks(deletedList)
     Alert.alert("O item foi deletado! 🗑️");
+    storeTasks(deletedList)
   }
 
+
+   //4° UPDATE
   function saveEdit() {
     const editedList = tasks.map((task) =>
       task.id === editID ? { ...task, text: NewText } : task
@@ -101,6 +135,7 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
     setEditing(false)
     setNewText("")
     Alert.alert("O item foi editado! 📝");
+    storeTasks(editedList)
   }
 
   return (
