@@ -16,7 +16,7 @@ type task = {
 }
 
 function creator() {
-    Alert.alert("Desenvolvido por Ramon! Aproveite!")
+    Alert.alert("Desenvolvido por Ramon! Aproveite! 👨🏻‍💻")
 }
 
 export default function Index() {
@@ -193,12 +193,3 @@ const styles = StyleSheet.create({
         color: "white",
     }
 })
-
-
-/*
-
-- Alert use Toast
-- local storage
-
-
-*/

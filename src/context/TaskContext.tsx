@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 /*atento as tipagens do context abaixo, funciona pra react norma e next JS*/
 
@@ -61,7 +62,10 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       AsyncStorage.setItem("tasksList", JSON.stringify(tasksList));
     } catch (e) {
-      Alert.alert("Failed to save users! ❌")
+      Toast.show({
+        type: 'error',
+        text1: 'Ocorreu um erro! ❌'
+      });
     }
   };
 
@@ -81,7 +85,10 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
       setTasks(JSON.parse(tasksList));
     }
   } catch (e) {
-    Alert.alert("Failed to get items! ❌")
+    Toast.show({
+      type: 'error',
+      text1: 'Ocorreu um erro! ❌'
+    });
   }
 };
 
@@ -103,14 +110,23 @@ useEffect(() => {
     setNewTask(BrandNewTask)
 
     if (filteredTasks && filteredTasks.find(item => item.text === NewText)) {
-      Alert.alert("Este item já existe na lista! ❌");
+      Toast.show({
+        type: 'error',
+        text1: "Este item já existe na lista! ❌"
+      });
     } else if (!NewText) {
-      Alert.alert("Por favor digite um novo item! ✍️");
+      Toast.show({
+        type: 'error',
+        text1: "Por favor digite um novo item! ✍️"
+      });
     } else {
       setTasks([...tasks, BrandNewTask])
       setNewText("")
-      Alert.alert("Novo item criado! ✅");
       storeTasks([...tasks, BrandNewTask])
+      Toast.show({
+        type: 'success',
+        text1: 'Novo item criado! ✅',
+      });
     }
   }
   
@@ -121,7 +137,10 @@ useEffect(() => {
       return item.id != id
     })
     setTasks(deletedList)
-    Alert.alert("O item foi deletado! 🗑️");
+    Toast.show({
+      type: 'error',
+      text1: "O item foi deletado! 🗑️"
+    });    
     storeTasks(deletedList)
   }
 
@@ -134,7 +153,10 @@ useEffect(() => {
     setTasks(editedList)
     setEditing(false)
     setNewText("")
-    Alert.alert("O item foi editado! 📝");
+    Toast.show({
+      type: 'success',
+      text1: "O item foi editado! 📝"
+    }); 
     storeTasks(editedList)
   }
 
