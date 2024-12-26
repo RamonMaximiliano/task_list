@@ -1,5 +1,5 @@
 import { Text, View, Image, TouchableOpacity } from "react-native";
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions  } from 'react-native';
 import { MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import React from "react";
@@ -12,6 +12,10 @@ type props = {
     category:string
 }
 
+//usando o dimensions para fazer a fonte escalavel conforme tamanho da tela
+
+const { width: screenWidth } = Dimensions.get('window');
+ 
 export default function Category(props:props) {
         const { tasks, setNewText, chosenCat, setChosenCat, editing, setEditing } = useContext(TaskContext)
 
@@ -24,7 +28,7 @@ export default function Category(props:props) {
     return (
         <>
                 <TouchableOpacity style={props.name === chosenCat ? styles.selected : styles.main} onPress={()=>changeCat()}>      
-                <MaterialIcons name={props.icon} size={30} color="white" />
+                <MaterialIcons name={props.icon} size={screenWidth * 0.08} color="white" />
 
                     <Text style={styles.text}>{props.name}</Text>
                 </TouchableOpacity>
@@ -62,7 +66,7 @@ const styles = StyleSheet.create({
     },
 
     text: {
-        fontSize: 16,
+        fontSize: screenWidth * 0.041,
         color:"white"
     }
 })
